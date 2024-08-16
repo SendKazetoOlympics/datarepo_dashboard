@@ -1,11 +1,17 @@
 
 <script>
+    import UserInput from './UserInput.svelte';
+
     const date = new Date();
     export let data;
 </script>
 
+
+
 <h1>Document you workout here</h1>
 <p>Today is {date.toDateString()}</p>
+<UserInput />
+
 {#await data}
     Waiting
 {:then result}
