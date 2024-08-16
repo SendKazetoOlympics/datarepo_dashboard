@@ -10,7 +10,6 @@ export async function load() {
         throw new Error('Failed to fetch project list');
     }
     let res = await project_list.json();
-    console.log(res)
     return await res;
 
 }

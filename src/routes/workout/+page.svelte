@@ -9,7 +9,11 @@
 {#await data}
     Waiting
 {:then result}
-    <p>{result.count}</p>
+    {#each result.results as project}
+        <p>{project.id}</p>
+        <p>{project.title}</p>
+        <p>{project.description}</p>
+    {/each}
 {:catch error}
     <p>{error.message}</p>
 {/await}
