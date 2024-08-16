@@ -1,4 +1,3 @@
-
 <script>
     import UserInput from './UserInput.svelte';
 
