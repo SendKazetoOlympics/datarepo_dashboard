@@ -1,6 +1,5 @@
 <script>
     import UserInput from './UserInput.svelte';
-
     const date = new Date();
     export let data;
 </script>
