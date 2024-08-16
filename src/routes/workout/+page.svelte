@@ -2,6 +2,7 @@
     import UserInput from './UserInput.svelte';
     const date = new Date();
     export let data;
+
 </script>
 
 
@@ -10,14 +11,19 @@
 <p>Today is {date.toDateString()}</p>
 <UserInput />
 
-{#await data}
-    Waiting
-{:then result}
-    {#each result.results as project}
-        <p>{project.id}</p>
-        <p>{project.title}</p>
-        <p>{project.description}</p>
-    {/each}
-{:catch error}
-    <p>{error.message}</p>
-{/await}
+<p>Choose a project to upload this video to</p>
+<form >
+    <select name="project" id="project">
+        {#await data}
+            Waiting
+        {:then result}
+            {#each result.results as project}
+                <option value={project.id}>{project.title}</option>
+                <!-- <p>{project.title}</p>
+                <p>{project.description}</p> -->
+            {/each}
+        {:catch error}
+            <p>{error.message}</p>
+        {/await}
+    </select>
+</form>

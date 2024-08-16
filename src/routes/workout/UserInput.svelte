@@ -1,9 +1,9 @@
 <script>
     let file = null;
     let preview = '';
-  </script>
+</script>
 
-<form id="uploadForm"method="post" enctype="multipart/form-data">
+<form id="uploadForm" method="post" enctype="multipart/form-data">
     <input type="file" name="files" id="files" multiple accept="video/*">
 </form>
 
@@ -14,6 +14,8 @@
         <p class="no-file">Please upload a file to preview it.</p>
     {/if}
 </div>
+
+
 
 
 <style>
