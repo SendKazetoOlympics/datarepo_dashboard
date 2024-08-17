@@ -1,8 +1,9 @@
-<script>
+<script lang='ts'>
     import UserInput from './UserInput.svelte';
     const date = new Date();
     export let data;
 
+    let selected: Number[] = [];
 </script>
 
 
@@ -12,8 +13,12 @@
 <UserInput />
 
 <p>Choose a project to upload this video to</p>
-<form >
-    <select name="project" id="project">
+<form>
+    <select 
+    bind:value={selected}
+    name="project"
+    id="project"
+    multiple>
         {#await data}
             Waiting
         {:then result}
@@ -27,3 +32,7 @@
         {/await}
     </select>
 </form>
+
+<p>
+    selected projects: {selected ? selected: '[waiting]'}
+</p>
