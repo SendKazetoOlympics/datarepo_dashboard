@@ -17,10 +17,10 @@
         {#await data}
             Waiting
         {:then result}
-            {#each result.results as project}
+            {#each result.projects.results as project}
                 <option value={project.id}>{project.title}</option>
-                <!-- <p>{project.title}</p>
-                <p>{project.description}</p> -->
+                <p>{project.title}</p>
+                <p>{project.description}</p>
             {/each}
         {:catch error}
             <p>{error.message}</p>
