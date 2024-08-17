@@ -1,7 +1,7 @@
-import { LABEL_STUDIO_API_ACCESSKEY } from '$env/static/private';
+import { LABEL_STUDIO_URL, LABEL_STUDIO_API_ACCESSKEY } from '$env/static/private';
 
 export async function load() {
-    const project_list = await fetch('http://192.168.0.103:8084/api/projects/', {
+    const project_list = await fetch(LABEL_STUDIO_URL+'/api/projects/', {
         headers: {
             'Authorization': 'Token  ' + LABEL_STUDIO_API_ACCESSKEY
         }
@@ -11,5 +11,4 @@ export async function load() {
     }
     let res = await project_list.json();
     return await res;
-
 }
