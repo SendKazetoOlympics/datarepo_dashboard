@@ -1,5 +1,6 @@
 <script lang="ts">
     let files: FileList;
+    let camera: string;
 
     const handleUpload = async (files: FileList) =>{
         Array.from(files).forEach(async file => {
@@ -11,23 +12,25 @@
             });
 
             if (minio_response.ok) {
-                alert('Files uploaded successfully');
+                console.log('Files uploaded successfully');
             } else {
                 
-                alert('Failed to upload files');
+                console.log('Failed to upload files');
             }
             const database_formData = new FormData();
             database_formData.append('name', file.name);
             database_formData.append('start_time', String(file.lastModified));
+            database_formData.append('camera', String(camera));
+
             const database_response = await fetch('/api/database/upload_video', {
                 method: 'POST',
                 body: database_formData
             });
 
             if (database_response.ok) {
-                alert('Added entry to database');
+                console.log('Added entry to database');
             } else {
-                alert('Failed to add entry to database');
+                console.log('Failed to add entry to database');
             }
 
         });
@@ -37,6 +40,9 @@
 <form id="uploadForm" method="post" enctype="multipart/form-data">
     <input bind:files={files} type="file" name="files" id="files" multiple accept="video/*">
 </form>
+
+<input bind:value={camera} type="text" placeholder="Camera ID">
+<p>{camera}</p>
 
 {#if files}
     <ul>

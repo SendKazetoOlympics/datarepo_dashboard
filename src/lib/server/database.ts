@@ -16,7 +16,7 @@ export async function getTables(){
     return tables;
 }
 
-export async function insertVideo(name: string, start_time: BigInt){
+export async function insertVideo(name: string, start_time: BigInt, camera: string){
     name = 'raw_data/' + name;
     const same_names = await db`SELECT * FROM videos WHERE name = ${name}` 
     if (same_names.length > 0){
@@ -24,7 +24,7 @@ export async function insertVideo(name: string, start_time: BigInt){
     }
     else {
         const video = await db`
-        INSERT INTO videos (id, name, start_time) VALUES (gen_random_uuid(), ${name}, ${start_time})`
+        INSERT INTO videos (id, name, start_time, camera) VALUES (gen_random_uuid(), ${name}, ${start_time}, ${camera})`
         return video;
     }
 }
