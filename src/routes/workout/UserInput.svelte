@@ -13,6 +13,7 @@
             if (minio_response.ok) {
                 alert('Files uploaded successfully');
             } else {
+                
                 alert('Failed to upload files');
             }
             const database_formData = new FormData();
