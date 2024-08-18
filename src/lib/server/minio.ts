@@ -23,6 +23,6 @@ export async function listObjects(bucketName: string){
 
 export async function uploadObject(bucketName: string, objectName: string, file: File){
     const stream = Stream.Readable.fromWeb(file.stream());
-    const object = await minioClient.putObject(bucketName, 'raw_data'+objectName, stream)
+    const object = await minioClient.putObject(bucketName, 'raw_data/'+objectName, stream)
     return object;
 }

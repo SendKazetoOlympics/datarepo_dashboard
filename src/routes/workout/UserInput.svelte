@@ -3,18 +3,32 @@
 
     const handleUpload = async (files: FileList) =>{
         Array.from(files).forEach(async file => {
-            const formData = new FormData();
-            formData.append('file', file);
-            const response = await fetch('/api/minio', {
+            const minio_formData = new FormData();
+            minio_formData.append('file', file);
+            const minio_response = await fetch('/api/minio/upload_video', {
                 method: 'POST',
-                body: formData
+                body: minio_formData
             });
 
-            if (response.ok) {
+            if (minio_response.ok) {
                 alert('Files uploaded successfully');
             } else {
                 alert('Failed to upload files');
             }
+            const database_formData = new FormData();
+            database_formData.append('name', file.name);
+            database_formData.append('start_time', String(file.lastModified));
+            const database_response = await fetch('/api/database/upload_video', {
+                method: 'POST',
+                body: database_formData
+            });
+
+            if (database_response.ok) {
+                alert('Added entry to database');
+            } else {
+                alert('Failed to add entry to database');
+            }
+
         });
     }
 </script>

@@ -17,8 +17,12 @@ export async function getTables(){
 }
 
 export async function insertVideo(name: string, start_time: BigInt){
-    const video = await db`
-    INSERT INTO videos (id, name, start_time) VALUES (gen_random_uuid(), ${name}, ${start_time})
-    `
-    return video;
+    if (await db`SELECT * FROM videos WHERE name = ${name}`) {
+        throw new Error('Video already exists');
+    }
+    else {
+        const video = await db`
+        INSERT INTO videos (id, name, start_time) VALUES (gen_random_uuid(), ${name}, ${start_time})`
+        return video;
+    }
 }
