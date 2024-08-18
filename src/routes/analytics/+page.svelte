@@ -4,6 +4,23 @@
     let end_date: string;
 
     export let data;
+
+    const getMinioUrl = async (objectName: string) => {
+        const formData = new FormData();
+        formData.append('objectName', objectName);
+        const response = await fetch('/api/minio/get_video_url', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            return result.url;
+        } else {
+            throw new Error('Failed to fetch data');
+        }
+    }
+
     const handleSelectVideo = async (start_date: string, end_date: string) => {
         const formData = new FormData();
         formData.append('start_date', start_date);
@@ -15,11 +32,15 @@
 
         if (response.ok) {
             const result = await response.json();
-            console.log(result);
+            for (let video of result) {
+                console.log(await getMinioUrl(video.name));
+            }
             return result;
         } else {
             throw new Error('Failed to fetch data');
         }
+
+
         
     }
 

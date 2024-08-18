@@ -25,3 +25,8 @@ export async function uploadObject(bucketName: string, objectName: string, file:
     const object = await minioClient.putObject(bucketName, 'raw_data/'+objectName, stream)
     return object;
 }
+
+export async function getPresignedUrl(bucketName: string, objectName: string){
+    const url = await minioClient.presignedUrl('GET', bucketName, objectName)
+    return url;
+}
