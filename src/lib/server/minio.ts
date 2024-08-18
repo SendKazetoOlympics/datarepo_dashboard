@@ -1,5 +1,7 @@
 import * as Minio from 'minio';
+import * as Fs from 'fs';
 import { MINIO_URL, MINIO_PORT, MINIO_API_ACCESSKEY, MINIO_API_SECRETKEY } from '$env/static/private';
+import { Stream } from 'stream';
 
 const minioClient = new Minio.Client({
     endPoint: MINIO_URL,
@@ -15,11 +17,12 @@ export async function listBuckets(){
 }
 
 export async function listObjects(bucketName: string){
-    const objects = await minioClient.listObjects(bucketName)
+    const objects = minioClient.listObjects(bucketName)
     return objects;
 }
 
-export async function uploadObject(bucketName: string, objectName: string, file: ReadableStream){
-    const object = await minioClient.putObject(bucketName, objectName, file)
+export async function uploadObject(bucketName: string, objectName: string, file: File){
+    const stream = Stream.Readable.fromWeb(file.stream());
+    const object = await minioClient.putObject(bucketName, 'raw_data'+objectName, stream)
     return object;
 }
