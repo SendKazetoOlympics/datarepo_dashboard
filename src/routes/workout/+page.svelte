@@ -7,10 +7,11 @@
 </script>
 
 
-
 <h1>Document you workout here</h1>
 <p>Today is {date.toDateString()}</p>
 <UserInput />
+
+
 
 <p>Choose a project to upload this video to</p>
 <form>

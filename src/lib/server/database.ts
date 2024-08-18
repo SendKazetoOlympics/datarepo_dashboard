@@ -15,3 +15,10 @@ export async function getTables(){
     const tables = await db`SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'`
     return tables;
 }
+
+export async function insertVideo(name: string, start_time: BigInt){
+    const video = await db`
+    INSERT INTO videos (id, name, start_time) VALUES (gen_random_uuid(), ${name}, ${start_time})
+    `
+    return video;
+}

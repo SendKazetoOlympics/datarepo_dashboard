@@ -6,3 +6,9 @@ export async function load() {
         projects: projects
     };
 }
+
+export const actions = {
+    upload: async ({ cookies, request }) => {
+        const body = await request.formData();
+}
+}

@@ -13,3 +13,13 @@ export async function listBuckets(){
     const buckets = await minioClient.listBuckets()
     return buckets;
 }
+
+export async function listObjects(bucketName: string){
+    const objects = await minioClient.listObjects(bucketName)
+    return objects;
+}
+
+export async function uploadObject(bucketName: string, objectName: string, file: ReadableStream){
+    const object = await minioClient.putObject(bucketName, objectName, file)
+    return object;
+}

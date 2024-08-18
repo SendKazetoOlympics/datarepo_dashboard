@@ -1,29 +1,34 @@
-<script>
-    let file = null;
-    let preview = '';
+<script lang="ts">
+    let files: FileList;
+
+    const handleUpload = async (files: FileList) =>{
+        Array.from(files).forEach(async file => {
+            const formData = new FormData();
+            formData.append('file', file);
+            const response = await fetch('/api/minio', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                alert('Files uploaded successfully');
+            } else {
+                alert('Failed to upload files');
+            }
+        });
+    }
 </script>
 
 <form id="uploadForm" method="post" enctype="multipart/form-data">
-    <input type="file" name="files" id="files" multiple accept="video/*">
+    <input bind:files={files} type="file" name="files" id="files" multiple accept="video/*">
 </form>
 
-<div class="preview-container">
-    {#if file}
-        <img class="preview-image" src={preview} alt="Preview of uploaded file" />
-    {:else}
-        <p class="no-file">Please upload a file to preview it.</p>
-    {/if}
-</div>
+{#if files}
+    <ul>
+        {#each Array.from(files) as file}
+            <li>{file.name} ({file.size} bytes)</li>
+        {/each}
+    </ul>
+{/if}
 
-
-
-
-<style>
-    .preview-container {
-    margin-top: 1rem;
-  }
-    .preview-image {
-    max-width: 100%;
-    max-height: 300px;
-  }
-</style>
+<button on:click={() => handleUpload(files)}>Upload</button>
