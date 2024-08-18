@@ -5,6 +5,23 @@
 
     export let data;
 
+    const createLSTask = async (project_id: Number, url: string) => {
+        const formData = new FormData();
+        formData.append('project_id', project_id.toString());
+        formData.append('url', url);
+        const response = await fetch('/api/labelstudio/create_task', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            return result;
+        } else {
+            throw new Error('Failed to create task');
+        }
+    }
+
     const getMinioUrl = async (objectName: string) => {
         const formData = new FormData();
         formData.append('objectName', objectName);
@@ -33,7 +50,9 @@
         if (response.ok) {
             const result = await response.json();
             for (let video of result) {
-                console.log(await getMinioUrl(video.name));
+                let url = await getMinioUrl(video.name);
+                let task = await createLSTask(6, url);
+                console.log(task);
             }
             return result;
         } else {

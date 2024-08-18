@@ -13,23 +13,23 @@ export async function get_projects(){
     return await res;
 }
 
-export async function create_task(project_id: Number, url: string){
-    const task = await fetch(LABEL_STUDIO_URL+'/api/projects/'+project_id+'/tasks/', {
+export async function createTask(project_id: Number, url: string){
+    console.log('Creating task for project: '+project_id+' with url: '+url);
+    const task = await fetch(LABEL_STUDIO_URL + '/api/tasks/', {
         method: 'POST',
         headers: {
-            'Authorization': 'Token  ' + LABEL_STUDIO_API_ACCESSKEY,
-            'Content-Type': 'application/json'
+          'Authorization': 'Token ' + LABEL_STUDIO_API_ACCESSKEY,
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            'data': {
-                'video': url
-            },
-            'project': project_id
+          'data': {
+            'video_url': url
+          },
+          'project': 6
         })
-    }
-    )
+      });
     if (!task.ok) {
-        throw new Error('Failed to create task');
+        throw new Error('The error is: '+task.statusText + ' with status code: '+task.status);
     }
     let res = await task.json();
     return await res;

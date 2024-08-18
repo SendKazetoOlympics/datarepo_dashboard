@@ -27,6 +27,6 @@ export async function uploadObject(bucketName: string, objectName: string, file:
 }
 
 export async function getPresignedUrl(bucketName: string, objectName: string){
-    const url = await minioClient.presignedUrl('GET', bucketName, objectName)
+    const url = await minioClient.presignedGetObject(bucketName, objectName)
     return url;
 }
