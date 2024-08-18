@@ -6,5 +6,6 @@ export async function POST({ request }) {
     const name = formData.get("name") as string;
     const start_time = BigInt(formData.get("start_time") as string);
     await insertVideo(name, start_time);
-    return json({ status: "ok" });
+    const response = new Response(JSON.stringify({ status: "ok" }));
+    return response;
 }

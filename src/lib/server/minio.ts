@@ -1,5 +1,4 @@
 import * as Minio from 'minio';
-import * as Fs from 'fs';
 import { MINIO_URL, MINIO_PORT, MINIO_API_ACCESSKEY, MINIO_API_SECRETKEY } from '$env/static/private';
 import { Stream } from 'stream';
 

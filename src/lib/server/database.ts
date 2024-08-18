@@ -17,7 +17,9 @@ export async function getTables(){
 }
 
 export async function insertVideo(name: string, start_time: BigInt){
-    if (await db`SELECT * FROM videos WHERE name = ${name}`) {
+    name = 'raw_data/' + name;
+    const same_names = await db`SELECT * FROM videos WHERE name = ${name}` 
+    if (same_names.length > 0){
         throw new Error('Video already exists');
     }
     else {

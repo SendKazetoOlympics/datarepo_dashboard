@@ -5,5 +5,6 @@ export async function POST({ request, cookies}) {
     const formData = await request.formData();
     const file: File = formData.get('file') as File;
     await uploadObject('highjump', file.name, file);
-    return json({ status: 'ok' });
+    const response = new Response(JSON.stringify({ status: "ok" }));
+    return response;
 }
