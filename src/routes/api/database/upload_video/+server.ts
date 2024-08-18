@@ -1,5 +1,4 @@
 import { insertVideo } from "$lib/server/database";
-import { json } from "@sveltejs/kit";
 
 export async function POST({ request }) {
     const formData = await request.formData();
