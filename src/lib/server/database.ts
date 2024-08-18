@@ -24,7 +24,17 @@ export async function insertVideo(name: string, start_time: BigInt, camera: stri
     }
     else {
         const video = await db`
-        INSERT INTO videos (id, name, start_time, camera) VALUES (gen_random_uuid(), ${name}, ${start_time}, ${camera})`
+        INSERT INTO videos (id, name, start_time, camera) VALUES (gen_random_uuid(), ${name}, ${start_time}, ${camera.toLowerCase()})`
         return video;
     }
+}
+
+export async function selectVideosByDate(start_date: string, end_date: string){
+    const videos = await db`SELECT * FROM videos WHERE cast(to_timestamp(start_time/1000) as date) BETWEEN ${start_date} AND ${end_date} ORDER BY start_time DESC`
+    return videos;
+}
+
+export async function selectVideosByType(type: string){
+    const videos = await db`SELECT * FROM videos WHERE camera = ${type}`
+    return videos;
 }
