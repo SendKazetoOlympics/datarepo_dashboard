@@ -13,7 +13,7 @@ export async function get_projects(){
     return await res;
 }
 
-export async function createTask(project_id: Number, url: string){
+export async function createTask(project_id: Number, url: string, file_name: string){
     console.log('Creating task for project: '+project_id+' with url: '+url);
     const task = await fetch(LABEL_STUDIO_URL + '/api/tasks/', {
         method: 'POST',
@@ -23,7 +23,8 @@ export async function createTask(project_id: Number, url: string){
         },
         body: JSON.stringify({
           'data': {
-            'video_url': url
+            'video_url': url,
+            'file_name': file_name
           },
           'project': 6
         })
