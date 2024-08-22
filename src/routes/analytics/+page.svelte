@@ -3,6 +3,8 @@
     let start_date: string;
     let end_date: string;
 
+    let selected_videos:string[] = [];
+
     export let data;
 
     const createLSTask = async (project_id: Number, url: string, file_name: string) => {
@@ -51,17 +53,17 @@
         if (response.ok) {
             const result = await response.json();
             for (let video of result) {
-                let url = await getMinioUrl(video.name);
-                let task = await createLSTask(6, url, video.name);
-                console.log(task);
+                selected_videos.push(video.name);
+                // let url = await getMinioUrl(video.name);
+
+                // let task = await createLSTask(6, url, video.name);
+                // console.log(task);
             }
+            console.log(selected_videos);
             return result;
         } else {
             throw new Error('Failed to fetch data');
         }
-
-
-        
     }
 
 </script>
@@ -73,15 +75,14 @@
 
 <button on:click={() => handleSelectVideo(start_date, end_date)}>Select</button>
 
-{#await data}
-    Waiting
-{:then result}
-    {#each result.tables as table}
-        <p>{table.table_name}</p>
-    {/each}
-    {#each result.buckets as bucket}
-        <p>{bucket.name}</p>
-    {/each}
+{#await selected_videos}
+    <p>Fetching data...</p>
+{:then videos}
+    <ul>
+        {#each videos as video}
+            <li>{video}</li>
+        {/each}
+    </ul>
 {:catch error}
-    <p>{error.message}</p>
+    <p style="color: red">{error.message}</p>
 {/await}
