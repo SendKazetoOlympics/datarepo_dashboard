@@ -38,3 +38,8 @@ export async function selectVideosByType(type: string){
     const videos = await db`SELECT * FROM videos WHERE camera = ${type}`
     return videos;
 }
+
+export async function selectVideoByName(name: string){
+    const video = await db`SELECT * FROM videos WHERE name = ${name}`
+    return video;
+}
