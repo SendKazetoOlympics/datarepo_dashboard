@@ -17,14 +17,13 @@ export async function handleSelectVideo(start_date: string, end_date: string): P
             // let task = await createLSTask(6, url, video.name);
             // console.log(task);
         }
-        console.log(selected_videos);
         return selected_videos;
     } else {
         throw new Error('Failed to fetch data');
     }
 }
 
-type VideoData = {
+export type VideoData = {
     id: number;
     name: string;
     start_time: string;
@@ -35,15 +34,15 @@ type VideoData = {
 
 export async function getVideoData(video_name: string): Promise<VideoData> {
     const formData = new FormData();
-    formData.append('video_name', video_name);
-    const response = await fetch('/api/database/get_video_data', {
+    formData.append('name', video_name);
+    const response = await fetch('/api/database/select_video_by_name', {
         method: 'POST',
         body: formData
     });
 
     if (response.ok) {
-        const result = await response.json();
-        return result;
+        const result = await response.json() as VideoData;
+        return result[0];
     } else {
         throw new Error('Failed to fetch data');
     }
