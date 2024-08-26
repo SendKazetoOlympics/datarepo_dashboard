@@ -42,7 +42,7 @@ export async function getVideoData(video_name: string): Promise<VideoData> {
 
     if (response.ok) {
         const result = await response.json() as VideoData;
-        return result[0];
+        return result;
     } else {
         throw new Error('Failed to fetch data');
     }

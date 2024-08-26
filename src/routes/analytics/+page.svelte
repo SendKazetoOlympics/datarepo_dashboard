@@ -69,7 +69,7 @@
 {:then videos}
     <ul>
         {#each videos as video}
-            <li>{video.id}</li>
+            <li>{video[0].id}</li>
         {/each}
     </ul>
 {:catch error}
