@@ -20,9 +20,12 @@ export async function listObjects(bucketName: string){
     return objects;
 }
 
-export async function uploadObject(bucketName: string, objectName: string, file: File){
+export async function uploadObject(bucketName: string, objectName: string, date: Date, file: File){
     const stream = Stream.Readable.fromWeb(file.stream());
-    const object = await minioClient.putObject(bucketName, 'raw_data/'+objectName, stream)
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    const day = date.getDate().toString().padStart(2, '0');
+    const object = await minioClient.putObject(bucketName, 'raw_data/'+year+'/'+month+'/'+day+'/'+objectName, stream)
     return object;
 }
 

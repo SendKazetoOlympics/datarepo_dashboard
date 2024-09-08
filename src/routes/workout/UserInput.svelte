@@ -3,9 +3,11 @@
     let camera: string;
 
     const handleUpload = async (files: FileList) =>{
+        alert('Uploading files');
         Array.from(files).forEach(async file => {
             const minio_formData = new FormData();
             minio_formData.append('file', file);
+            minio_formData.append('lastModified', String(file.lastModified));
             const minio_response = await fetch('/api/minio/upload_video', {
                 method: 'POST',
                 body: minio_formData
@@ -18,7 +20,12 @@
                 console.log('Failed to upload files');
             }
             const database_formData = new FormData();
-            database_formData.append('name', file.name);
+            const date = new Date(file.lastModified);
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear().toString();
+            const day = date.getDate().toString().padStart(2, '0');
+            const filename = `${year}/${month}/${day}/${file.name}`;
+            database_formData.append('name', filename);
             database_formData.append('start_time', String(file.lastModified));
             database_formData.append('camera', String(camera));
 
@@ -34,6 +41,7 @@
             }
 
         });
+        alert('Files uploaded');
     }
 </script>
 
