@@ -75,3 +75,6 @@
 {:catch error}
     <p style="color: red">{error.message}</p>
 {/await}
+
+<button class="btn">Button</button>
+
