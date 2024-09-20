@@ -7,8 +7,8 @@
         Array.from(files).forEach(async file => {
             const minio_formData = new FormData();
             minio_formData.append('file', file);
-            minio_formData.append('lastModified', String(file.lastModified));
-            const minio_response = await fetch('/api/minio/upload_video', {
+            minio_formData.append('lastModified', String(file.lastModified));            
+            const minio_response = await fetch('http://kazeserver:8001/minio/upload_file', {
                 method: 'POST',
                 body: minio_formData
             });
@@ -29,7 +29,7 @@
             database_formData.append('start_time', String(file.lastModified));
             database_formData.append('camera', String(camera));
 
-            const database_response = await fetch('/api/database/upload_video', {
+            const database_response = await fetch('http://kazeserver:8001/database/upload_video', {
                 method: 'POST',
                 body: database_formData
             });
@@ -41,7 +41,7 @@
             }
 
         });
-        alert('Files uploaded');
+        // alert('Files uploaded');
     }
 </script>
 
