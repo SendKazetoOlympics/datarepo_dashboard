@@ -1,6 +1,6 @@
 <script lang='ts'>
 
-    import { handleSelectVideo, getVideoData } from './actions';
+    import { handleSelectVideo } from './actions';
     import type { VideoData } from './actions';
 
     let start_date: string;
@@ -45,14 +45,7 @@
     }
 
     async function handleClick(start_date: string, end_date: string) {
-        let video_names = await handleSelectVideo(start_date, end_date);
-        let video_data = [];
-        for (let i = 0; i < video_names.length; i++) {
-            let video = await getVideoData(video_names[i]);
-            video_data.push(video);
-        }
-        selected_videos = video_data;
-        console.log(selected_videos);
+        selected_videos = await handleSelectVideo(start_date, end_date);
     }
 
 </script>
@@ -69,7 +62,7 @@
 {:then videos}
     <ul>
         {#each videos as video}
-            <li>{video[0].id}</li>
+            <li>{video.id}</li>
         {/each}
     </ul>
 {:catch error}
