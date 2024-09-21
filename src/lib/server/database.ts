@@ -11,35 +11,35 @@ const db = postgres("",
 }
 )
 
-export async function getTables(){
-    const tables = await db`SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'`
-    return tables;
-}
+// export async function getTables(){
+//     const tables = await db`SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'`
+//     return tables;
+// }
 
-export async function insertVideo(name: string, start_time: BigInt, camera: string){
-    name = 'raw_data/' + name;
-    const same_names = await db`SELECT * FROM videos WHERE name = ${name}` 
-    if (same_names.length > 0){
-        throw new Error('Video already exists');
-    }
-    else {
-        const video = await db`
-        INSERT INTO videos (id, name, start_time, camera) VALUES (gen_random_uuid(), ${name}, ${start_time}, ${camera.toLowerCase()})`
-        return video;
-    }
-}
+// export async function insertVideo(name: string, start_time: BigInt, camera: string){
+//     name = 'raw_data/' + name;
+//     const same_names = await db`SELECT * FROM videos WHERE name = ${name}` 
+//     if (same_names.length > 0){
+//         throw new Error('Video already exists');
+//     }
+//     else {
+//         const video = await db`
+//         INSERT INTO videos (id, name, start_time, camera) VALUES (gen_random_uuid(), ${name}, ${start_time}, ${camera.toLowerCase()})`
+//         return video;
+//     }
+// }
 
-export async function selectVideosByDate(start_date: string, end_date: string){
-    const videos = await db`SELECT * FROM videos WHERE cast(to_timestamp(start_time/1000) as date) BETWEEN ${start_date} AND ${end_date} ORDER BY start_time DESC`
-    return videos;
-}
+// export async function selectVideosByDate(start_date: string, end_date: string){
+//     const videos = await db`SELECT * FROM videos WHERE cast(to_timestamp(start_time/1000) as date) BETWEEN ${start_date} AND ${end_date} ORDER BY start_time DESC`
+//     return videos;
+// }
 
-export async function selectVideosByType(type: string){
-    const videos = await db`SELECT * FROM videos WHERE camera = ${type}`
-    return videos;
-}
+// export async function selectVideosByType(type: string){
+//     const videos = await db`SELECT * FROM videos WHERE camera = ${type}`
+//     return videos;
+// }
 
-export async function selectVideoByName(name: string){
-    const video = await db`SELECT * FROM videos WHERE name = ${name}`
-    return video;
-}
+// export async function selectVideoByName(name: string){
+//     const video = await db`SELECT * FROM videos WHERE name = ${name}`
+//     return video;
+// }
