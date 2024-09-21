@@ -7,29 +7,31 @@
         Array.from(files).forEach(async file => {
             const minio_formData = new FormData();
             minio_formData.append('file', file);
-            minio_formData.append('lastModified', String(file.lastModified));            
-            const minio_response = await fetch('http://kazeserver/flask/minio/upload_file', {
+            minio_formData.append('lastModified', String(file.lastModified));
+            alert('Uploading file');
+            const minio_response = await fetch('http://kazeserver:8001/flask/minio/upload_file', {
                 method: 'POST',
                 body: minio_formData
             });
 
             if (minio_response.ok) {
-                console.log('Files uploaded successfully');
+                alert('Files uploaded successfully');
             } else {
                 
-                console.log('Failed to upload files');
+                alert('Failed to upload files');
+                alert(minio_response.statusText);
             }
             const database_formData = new FormData();
             const date = new Date(file.lastModified);
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
             const year = date.getFullYear().toString();
             const day = date.getDate().toString().padStart(2, '0');
-            const filename = `${year}/${month}/${day}/${file.name}`;
+            const filename = `raw_data/${year}/${month}/${day}/${file.name}`;
             database_formData.append('name', filename);
             database_formData.append('start_time', String(file.lastModified));
             database_formData.append('camera', String(camera));
 
-            const database_response = await fetch('http://kazeserver/flask/database/upload_video', {
+            const database_response = await fetch('http://kazeserver:8001/flask/database/upload_video', {
                 method: 'POST',
                 body: database_formData
             });
