@@ -8,7 +8,6 @@
             const minio_formData = new FormData();
             minio_formData.append('file', file);
             minio_formData.append('lastModified', String(file.lastModified));
-            alert('Uploading file');
             const minio_response = await fetch('http://kazeserver:8001/flask/minio/upload_file', {
                 method: 'POST',
                 body: minio_formData
@@ -17,7 +16,6 @@
             if (minio_response.ok) {
                 alert('Files uploaded successfully');
             } else {
-                
                 alert('Failed to upload files');
                 alert(minio_response.statusText);
             }
