@@ -1,20 +1,14 @@
 <script lang='ts'>
-    let name: string = $state('Name');
-    let portion: string = $state('Portion');
-    let calories: string = $state('Calories');
-    let carb: string = $state('Carb');
-    let protein: string = $state('Protein');
-    let fat: string = $state('Fat');
+
+    let field_names: string[] = ['Name', 'Portion', 'Calories', 'Carb', 'Protein', 'Fat'];
+    let fields: string[] = $state(['', '', '', '', '', '']);
 
     const onAddFood = async () => {
         console.log('Adding food');
         const formData = new FormData();
-        formData.append('name', name);
-        formData.append('portion', portion);
-        formData.append('calories', calories);
-        formData.append('carbs', carb);
-        formData.append('protein', protein);
-        formData.append('fat', fat);
+        for (let i = 0; i < field_names.length; i++) {
+            formData.append(field_names[i], fields[i]);
+        }
 
         const response = await fetch('http://kazeserver.com:9500/flask/nutrition/add_food', {
             method: 'POST',
@@ -30,25 +24,17 @@
 
 </script>
 
-<ul>
-    <li class="py-2">
-        <input class='input input-bordered' type='text' bind:value={name} placeholder='Name'>
+<ul class='w-44'>
+    {#each fields as field, i}
+    <li>
+        <label class='form-control w-full max-w-xs'>
+            <span class='label-text'>{field_names[i]}</span>
+            <input class='input input-bordered' type='text' bind:value={fields[i]} placeholder={field}>
+        </label>    
     </li>
-    <li class="pt-2">
-        <input class='input input-bordered' type='text' bind:value={portion} placeholder='Portion'>
-    </li>
-    <li class="">
-        <input class='input input-bordered' type='text' bind:value={calories} placeholder='Calories'>
-    </li>
-    <li class="">
-        <input class='input input-bordered' type='text' bind:value={carb} placeholder='Carb'>
-    </li>
-    <li class="">
-        <input class='input input-bordered' type='text' bind:value={protein} placeholder='Protein'>
-    </li>
-    <li class="">
-        <input class='input input-bordered' type='text' bind:value={fat} placeholder='Fat'>
-    </li>
+{/each}
 </ul>
+
+
 
 <button class='btn' onclick={() => onAddFood()}>Add food</button>
