@@ -70,39 +70,6 @@ let foodList = [
         carbs: 15,
         fat: 0.8
     },
-    {
-        name: "Blackberries",
-        portion: 1,
-        calories: 43,
-        protein: 2,
-        carbs: 10,
-        fat: 0.5
-    },
-    {
-        name: "Pineapple",
-        portion: 1,
-        calories: 83,
-        protein: 0.5,
-        carbs: 22,
-        fat: 0.1
-    },
-    {
-        name: "Watermelon",
-        portion: 1,
-        calories: 46,
-        protein: 0.9,
-        carbs: 11,
-        fat: 0.2
-    },
-    {
-        name: "Cantaloupe",
-        portion: 1,
-        calories: 53,
-        protein: 1.3,
-        carbs: 13,
-        fat: 0.3
-    },
-
 ]
 
 let currentPage = 0
@@ -113,10 +80,16 @@ let paginate = (array: any[], page_size: number, page_number: number) => {
 
 let nextPage = () => {
     currentPage += 1
+    if (currentPage > foodList.length / 5) {
+        currentPage = Math.floor(foodList.length / 5)
+    }
 }
 
 let prevPage = () => {
     currentPage -= 1
+    if (currentPage < 0) {
+        currentPage = 0
+    }
 }
 
 let addFood = (food: foodItem) => {
@@ -128,12 +101,11 @@ let addFood = (food: foodItem) => {
 <h1>Track nutrition and metrics here</h1>
 
 {#each paginate(foodList, 5, currentPage) as food}
-    <div class="card">
+    <div class="card-compact">
         <div class="card-body">
             <h2>{food.name}</h2>
          </div>
     </div>
-
 {/each}
 <button class="btn" on:click={prevPage}>Previous</button>
 <button class="btn" on:click={() => addFood(food)}>Add food</button>
