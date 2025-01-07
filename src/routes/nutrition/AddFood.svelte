@@ -8,7 +8,24 @@
 
     const onAddFood = async () => {
         console.log('Adding food');
-        console.log(name);
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('portion', portion);
+        formData.append('calories', calories);
+        formData.append('carbs', carb);
+        formData.append('protein', protein);
+        formData.append('fat', fat);
+
+        const response = await fetch('http://kazeserver.com:9500/flask/nutrition/add_food', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            console.log('Added food');
+        } else {
+            console.log('Failed to add food');
+        }
     }
 
 </script>
